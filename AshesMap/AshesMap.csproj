@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="blboo\" />
     <Folder Include="wwwroot\map\3\Neuer Ordner\0\" />
     <Folder Include="wwwroot\map\3\Neuer Ordner\1\" />
     <Folder Include="wwwroot\map\3\Neuer Ordner\2\" />
