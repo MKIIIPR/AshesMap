@@ -1,0 +1,12 @@
+﻿@page "/"
+@inject TileDownloader TileDownloader
+
+<MudButton OnClick="DownloadTiles" >Karten herunterladen</MudButton>
+
+@code {
+    private async Task DownloadTiles()
+    {
+        await TileDownloader.DownloadTilesAsZip();
+    }
+}
+<AOCMap></AOCMap>

@@ -1,0 +1,140 @@
+﻿@page "/map"
+@using static AshesMap.ResourcesClass
+@inject IJSRuntime JS
+@inject MapHandler MapHandler 
+
+<div style="width: 100%; display: flex; flex-direction: row;">
+
+
+    <div id="map" style="height: 900px; width: 80%;" @oncontextmenu="@(OpenContextMenu)" @oncontextmenu:preventDefault @oncontextmenu:stopPropagation>
+    </div>
+
+    <div style="width: 20%">
+
+            <ResourceSpawnCreation Lat="MapHandler.Lat" Lng="MapHandler.Lng" ResourceType="@_mapData.ResType"></ResourceSpawnCreation>
+
+        <MudExpansionPanels>
+            @foreach (var spot in _mapData.ResSpot)
+            {
+                var timeRemaining = spot.RespawnAt - DateTime.Now;
+                var timeRemainingString = timeRemaining.TotalSeconds > 0
+                ? $"{timeRemaining.Hours}h {timeRemaining.Minutes}m {timeRemaining.Seconds}s"
+                : "Bereit zur Ernte";
+
+
+                    <MudExpansionPanel Style="@($"background-color: #{spot.Rarity.ToString()}")">
+                        <TitleContent>
+                            <div class="d-flex" style="background-color:#@spot.Rarity">
+                                @(spot.Resource.Name + " " + timeRemainingString)<br />
+
+                            <MudIconButton Icon="@Icons.Material.Filled.SyncLock"
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Primary"
+                                           Size="Size.Small"
+                                           OnClick="() => spot.LastHarvest = DateTime.Now" />
+                                <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="()=>_mapData.ResSpot.Remove(spot)"/> 
+                                    <br />
+                           
+                            </div>
+                        </TitleContent>
+                        <ChildContent>
+                    <div style="width:100%;height:100%;"  @onclick="()=>EnlargeImg(spot.Img)"><img src="@spot.Img" style="width:100%;height:100%" /> </div>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                   
+
+                   
+                
+            }
+        </MudExpansionPanels>
+    </div>
+</div>
+
+<p>Koordinaten: <span id="map-coordinates">-</span></p>
+
+<MudMenu PositionAtCursor @ref="_contextMenu">
+
+    @foreach (var group in _mapData.ResList.GroupBy(r => r.Type))
+    {
+        <MudMenuItem Label="@group.Key" OnClick="()=>SetResType(group.Key)" />
+    }
+
+</MudMenu>
+
+@code {
+    private MudMenu _contextMenu = null!;
+    [CascadingParameter]
+    public CascadingMapData? _mapData { get; set; } // Referenz zur CascadingMapData
+    public void SetResType(string type){
+        _mapData.ResType = type;
+    }
+
+    private void EnlargeImg(string img){
+
+    }
+    private async Task OpenContextMenu(MouseEventArgs args)
+    {
+        await _contextMenu.OpenMenuAsync(args);
+    }
+    protected override void OnParametersSet()
+    {
+        if (_mapData == null)
+        {
+            Console.WriteLine("⚠️ _mapData ist noch NULL!");
+        }
+        else
+        {
+            Console.WriteLine("✅ _mapData ist gesetzt!");
+        }
+    }
+    private void AddNewResourcePosition(Resource resource, int rarity)
+    {
+        double lat = MapHandler.Lat; // Hier holen wir uns die Koordinaten aus der MapHandler-Klasse
+        double lng = MapHandler.Lng;
+
+        // Hier greifst du auf die Cascading-Werte zu, um neue Ressourcen hinzuzufügen
+               
+        // Deine Logik für das Hinzufügen der Ressource
+        Console.WriteLine($"Ressource {resource.Name} hinzugefügt bei {lat}, {lng}");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initMap");
+        }
+    }
+
+    public List<Resource> ResourceList { get; set; } = new List<Resource>();
+
+    private string GetIconForType(string type)
+    {
+        return type.ToLower() switch
+        {
+            "metal" => Icons.Material.Filled.Build,
+            "wood" => Icons.Material.Filled.Forest,
+            "gem" => Icons.Material.Filled.Diamond,
+            _ => Icons.Material.Filled.HelpOutline,
+        };
+    }
+
+    private Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        // Starte einen Timer, der jede Sekunde die UI aktualisiert
+        _timer = new Timer(UpdateUI, null, 0, 1000);
+    }
+
+    private void UpdateUI(object? state)
+    {
+        InvokeAsync(StateHasChanged); // UI-Update anfordern
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose(); // Timer stoppen, wenn die Komponente zerstört wird
+    }
+
+}
