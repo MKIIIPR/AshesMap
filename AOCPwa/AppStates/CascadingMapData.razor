@@ -116,7 +116,7 @@
     }
     public async Task<List<NodePositionView>> GetNodePositions(){
         var result = new List<NodePositionView>();
-        var fromClient = await _positions.GetAllAsync("/nodeposition");
+        var fromClient = await _positions.GetAllAsync("/nodeposition?ghost=eq.false");
         foreach(var spot in fromClient){
             NodePositionView newSpot = new();
 
