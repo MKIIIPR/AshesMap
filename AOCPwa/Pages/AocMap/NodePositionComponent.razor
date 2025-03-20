@@ -18,7 +18,7 @@
             </div>
 
 
-            <div style="display:flex;flex-direction: column;padding-left;">
+            <div style="display:flex;flex-direction: column;padding-left:5px;">
                 <div style="display:flex;flex-direction: column;">
                     
                 <span>@(NodePosition.TimeRemainingString)</span>
@@ -41,6 +41,12 @@
                                Color="Color.Error"
                                Size="Size.Small"
                                OnClick="() => DeleteNode(NodePosition)" />
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                   Variant="Variant.Outlined"
+                                   Color="Color.Error"
+                                   Size="Size.Small"
+                                   OnClick="() => DeleteNode(NodePosition)" />
 
                 <MudToggleIconButton @bind-Toggled="NodePosition.AlertSet"
                                      Icon="@Icons.Material.Filled.AlarmOff"
