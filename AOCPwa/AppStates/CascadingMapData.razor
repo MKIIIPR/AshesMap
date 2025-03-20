@@ -65,11 +65,11 @@
         {
             FilteredPosList = NodePositionList
                 .Where(node => _selectedFilter.Contains(node.Node.Name))
-                .ToList();
+                .ToList().OrderBy(e=>e.TimeLeft);
         }
         else
         {
-            FilteredPosList = NodePositionList;
+            FilteredPosList = NodePositionList.OrderBy(e => e.TimeLeft);
         }
     }
 
@@ -161,6 +161,7 @@
                 await JS.InvokeVoidAsync("addCustomMarker", nodeView.Lat, nodeView.Lng, nodeView, nodeView.TimeLeft);
         }
     }
+
     public async Task DeleteNodePositionComplete(NodePosition position)
     {
         await _positions.DeleteAsync(position.Id, "/nodeposition?id=eq."); ;
@@ -179,22 +180,4 @@
         
     }
 
-    public async Task<List<Node>> NodesStatic()
-    {
-        List<Node> newList = new();
-
-        newList.Add(new Node { Id = "1", Type = "metal", RespawnTimer = 120, Name = "Copper" });
-        newList.Add(new Node { Id = "2", Type = "metal", RespawnTimer = 120, Name = "Zink" });
-        newList.Add(new Node { Id = "3", Type = "metal", RespawnTimer = 120, Name = "Tin" });
-        newList.Add(new Node { Id = "4", Type = "metal", RespawnTimer = 120, Name = "Iron" });
-        newList.Add(new Node { Id = "5", Type = "metal", RespawnTimer = 120, Name = "Rividium" });
-        newList.Add(new Node { Id = "9", Type = "wood", RespawnTimer = 240, Name = "Wieping Willow" });
-        newList.Add(new Node { Id = "11", Type = "wood", RespawnTimer = 240, Name = "BraidWood" });
-        newList.Add(new Node { Id = "12", Type = "gem", RespawnTimer = 120, Name = "Rubi" });
-        newList.Add(new Node { Id = "13", Type = "gem", RespawnTimer = 120, Name = "Saphire" });
-        newList.Add(new Node { Id = "14", Type = "gem", RespawnTimer = 120, Name = "Halcyonite" });
-        newList.Add(new Node { Id = "15", Type = "gem", RespawnTimer = 120, Name = "Lumadon" });
-        newList.Add(new Node { Id = "16", Type = "npc", RespawnTimer = 120, Name = "" });
-        return newList.ToList();
-    }
 }
