@@ -42,30 +42,11 @@ function initMap() {
     }).setView([207998, -879827]);
     console.log("initMap: Karte initialisiert.");
 
-    // Füge einen festen Marker hinzu
-    if (map) {
-        L.marker([201700, -872000]).addTo(map)
-            .bindPopup("text")
-            .openPopup();
-        console.log("initMap: Fester Marker bei [201700, -872000] hinzugefügt.");
-    } else {
-        console.error("initMap: Karte ist nach der Initialisierung null.");
-    }
-
     // Attribution hinzufügen
     L.control.attribution({ prefix: false })
         .addAttribution('<a href="https://deine-seite.com">Deine Spielkarte</a>')
         .addTo(map);
     console.log("initMap: Attribution hinzugefügt.");
-
-    // Füge einen Kreis-Marker hinzu
-    L.circleMarker([212700, -852000], {
-        color: 'red',       // Randfarbe
-        fillColor: 'red',   // Füllfarbe
-        fillOpacity: 0.5,   // Füllopazität
-        radius: 10          // Radius des Markers
-    }).addTo(map).bindPopup("haha");
-    console.log("initMap: Kreis-Marker bei [212700, -852000] hinzugefügt.");
 
     // Event-Listener für das Kontextmenü (Rechtsklick)
     map.addEventListener('contextmenu', function (ev) {
