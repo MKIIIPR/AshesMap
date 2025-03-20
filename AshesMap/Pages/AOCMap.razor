@@ -1,5 +1,5 @@
 ﻿@page "/map"
-@using static AshesMap.ResourcesClass
+@using AshesMapBib.Models
 @inject IJSRuntime JS
 @inject MapHandler MapHandler 
 
@@ -11,10 +11,10 @@
 
     <div style="width: 20%">
 
-            <ResourceSpawnCreation Lat="MapHandler.Lat" Lng="MapHandler.Lng" ResourceType="@_mapData.ResType"></ResourceSpawnCreation>
+        <ResourceSpawnCreation Lat="MapHandler.Lat" Lng="MapHandler.Lng" ResourceType="@_mapData.ResType"></ResourceSpawnCreation>
 
         <MudExpansionPanels>
-            @foreach (var spot in _mapData.ResSpot)
+            @foreach (var spot in _mapData.NodeSpots)
             {
                 var timeRemaining = spot.RespawnAt - DateTime.Now;
                 var timeRemainingString = timeRemaining.TotalSeconds > 0
@@ -22,29 +22,29 @@
                 : "Bereit zur Ernte";
 
 
-                    <MudExpansionPanel Style="@($"background-color: #{spot.Rarity.ToString()}")">
-                        <TitleContent>
-                            <div class="d-flex" style="background-color:#@spot.Rarity">
-                                @(spot.Resource.Name + " " + timeRemainingString)<br />
+                <MudExpansionPanel Style="@($"background-color: #{spot.Rarity.ToString()}")">
+                    <TitleContent>
+                        <div class="d-flex" style="background-color:#@spot.Rarity">
+                            @(spot.Node.Name + " " + timeRemainingString)<br />
 
                             <MudIconButton Icon="@Icons.Material.Filled.SyncLock"
-                                           Variant="Variant.Outlined"
-                                           Color="Color.Primary"
-                                           Size="Size.Small"
-                                           OnClick="() => spot.LastHarvest = DateTime.Now" />
-                                <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="()=>_mapData.ResSpot.Remove(spot)"/> 
-                                    <br />
-                           
-                            </div>
-                        </TitleContent>
-                        <ChildContent>
-                    <div style="width:100%;height:100%;"  @onclick="()=>EnlargeImg(spot.Img)"><img src="@spot.Img" style="width:100%;height:100%" /> </div>
-                        </ChildContent>
-                    </MudExpansionPanel>
-                   
+                            Variant="Variant.Outlined"
+                            Color="Color.Primary"
+                            Size="Size.Small"
+                            OnClick="() => spot.LastHarvest = DateTime.Now" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="()=>_mapData.NodeSpots.Remove(spot)"/> 
+                            <br />
 
-                   
-                
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        <div style="width:100%;height:100%;"  @onclick="()=>EnlargeImg(spot.Image)"><img src="@spot.Image" style="width:100%;height:100%" /> </div>
+                    </ChildContent>
+                </MudExpansionPanel>
+
+
+
+
             }
         </MudExpansionPanels>
     </div>
@@ -54,7 +54,7 @@
 
 <MudMenu PositionAtCursor @ref="_contextMenu">
 
-    @foreach (var group in _mapData.ResList.GroupBy(r => r.Type))
+    @foreach (var group in _mapData.Nodes.GroupBy(r => r.Type))
     {
         <MudMenuItem Label="@group.Key" OnClick="()=>SetResType(group.Key)" />
     }
@@ -87,13 +87,13 @@
             Console.WriteLine("✅ _mapData ist gesetzt!");
         }
     }
-    private void AddNewResourcePosition(Resource resource, int rarity)
+    private void AddNewResourcePosition(Node resource, int rarity)
     {
         double lat = MapHandler.Lat; // Hier holen wir uns die Koordinaten aus der MapHandler-Klasse
         double lng = MapHandler.Lng;
 
         // Hier greifst du auf die Cascading-Werte zu, um neue Ressourcen hinzuzufügen
-               
+
         // Deine Logik für das Hinzufügen der Ressource
         Console.WriteLine($"Ressource {resource.Name} hinzugefügt bei {lat}, {lng}");
     }
@@ -106,7 +106,7 @@
         }
     }
 
-    public List<Resource> ResourceList { get; set; } = new List<Resource>();
+    public List<Node> ResourceList { get; set; } = new List<Node>();
 
     private string GetIconForType(string type)
     {

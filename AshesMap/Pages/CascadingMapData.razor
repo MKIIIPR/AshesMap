@@ -1,6 +1,6 @@
 ﻿@using System.Collections.Generic
+@using AshesMapBib.Models
 
-@using static AshesMap.ResourcesClass
 
 <CascadingValue Value="this">
     @ChildContent
@@ -8,17 +8,17 @@
 
 @code {
     // List von ResourcePositionen, die die Daten enthalten
-    public List<ResourcePosition> ResSpot { get; set; } = new List<ResourcePosition>();
-
+    public List<NodePosition> NodeSpots { get; set; } = new List<NodePosition>();
+    public List<Node> Nodes { get; set; } = new List<Node>();
     [Parameter] public RenderFragment ChildContent { get; set;  }
 
     public string ResType { get; set; } = "";
     // Methode zum Hinzufügen einer neuen ResourcePosition
 
-    public void AddResourcePosition(ResourcePosition resource)
+    public void AddResourcePosition(NodePosition resource)
     {
 
-        ResSpot.Add(resource);
+        NodeSpots.Add(resource);
         StateHasChanged();
     }
 
@@ -27,20 +27,20 @@
         InitResourceList();
         base.OnInitialized();
     }
-    public List<Resource> ResList { get; set; } = new();
+    public List<Node> ReNode{get; set; } = new();
     private void InitResourceList()
     {
-        ResList.Add(new Resource { Id = "1", Type = "metal", RespawnTimer = 120, Name = "Copper" });
-        ResList.Add(new Resource { Id = "2", Type = "metal", RespawnTimer = 120, Name = "Zink" });
-        ResList.Add(new Resource { Id = "3", Type = "metal", RespawnTimer = 120, Name = "Tin" });
-        ResList.Add(new Resource { Id = "4", Type = "metal", RespawnTimer = 120, Name = "Iron" });
-        ResList.Add(new Resource { Id = "5", Type = "metal", RespawnTimer = 120, Name = "Rividium" });
-        ResList.Add(new Resource { Id = "9", Type = "wood", RespawnTimer = 240, Name = "Wieping Willow" });
-        ResList.Add(new Resource { Id = "11", Type = "wood", RespawnTimer = 240, Name = "BraidWood" });
-        ResList.Add(new Resource { Id = "12", Type = "gem", RespawnTimer = 120, Name = "Rubi" });
-        ResList.Add(new Resource { Id = "13", Type = "gem", RespawnTimer = 120, Name = "Saphire" });
-        ResList.Add(new Resource { Id = "14", Type = "gem", RespawnTimer = 120, Name = "Halcyonite" });
-        ResList.Add(new Resource { Id = "15", Type = "gem", RespawnTimer = 120, Name = "Lumadon" });
-        ResList.Add(new Resource { Id = "16", Type = "npc", RespawnTimer = 120, Name = "" });
+        Nodes.Add(new Node { Type = "metal", RespawnTimer = 120, Name = "Copper" });
+        Nodes.Add(new Node { Type = "metal", RespawnTimer = 120, Name = "Zink" });
+        Nodes.Add(new Node { Type = "metal", RespawnTimer = 120, Name = "Tin" });
+        Nodes.Add(new Node { Type = "metal", RespawnTimer = 120, Name = "Iron" });
+        Nodes.Add(new Node { Type = "metal", RespawnTimer = 120, Name = "Rividium" });
+        Nodes.Add(new Node { Type = "wood", RespawnTimer = 240, Name = "Wieping Willow" });
+        Nodes.Add(new Node {  Type = "wood", RespawnTimer = 240, Name = "BraidWood" });
+        Nodes.Add(new Node {  Type = "gem", RespawnTimer = 120, Name = "Rubi" });
+        Nodes.Add(new Node {  Type = "gem", RespawnTimer = 120, Name = "Saphire" });
+        Nodes.Add(new Node {  Type = "gem", RespawnTimer = 120, Name = "Halcyonite" });
+        Nodes.Add(new Node {  Type = "gem", RespawnTimer = 120, Name = "Lumadon" });
+        Nodes.Add(new Node {  Type = "npc", RespawnTimer = 120, Name = "" });
     }
 }

@@ -12,5 +12,14 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddMudServices();
 builder.Services.AddScoped<MapHandler>();
 builder.Services.AddScoped<TileDownloader>();
+builder.Services.AddHttpClient("PrimaryApi", client =>
+{
+    client.BaseAddress = new Uri("https://primaryapi.example.com/");
+});
+builder.Services.AddHttpClient("BackupApi", client =>
+{
+    client.BaseAddress = new Uri("https://backupapi.example.com/");
+});
+builder.Services.AddScoped<GenericMultiApiService>();
 
 await builder.Build().RunAsync();

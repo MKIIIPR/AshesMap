@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <WasmNativBuild>true</WasmNativBuild>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
+    <PackageReference Include="MudBlazor" Version="8.3.0" />
+    <PackageReference Include="MudBlazor.ThemeManager" Version="3.0.0" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\map\5\16\" />
+    <Folder Include="wwwroot\map\5\17\" />
+    <Folder Include="wwwroot\map\5\18\" />
+    <Folder Include="wwwroot\map\5\19\" />
+    <Folder Include="wwwroot\map\5\20\" />
+    <Folder Include="wwwroot\map\5\21\" />
+    <Folder Include="wwwroot\map\5\22\" />
+    <Folder Include="wwwroot\map\5\23\" />
+    <Folder Include="wwwroot\map\5\24\" />
+    <Folder Include="wwwroot\map\5\25\" />
+    <Folder Include="wwwroot\map\5\26\" />
+    <Folder Include="wwwroot\map\5\27\" />
+    <Folder Include="wwwroot\map\5\28\" />
+    <Folder Include="wwwroot\map\5\29\" />
+    <Folder Include="wwwroot\map\5\30\" />
+    <Folder Include="wwwroot\map\5\31\" />
+    <Folder Include="wwwroot\map\5\32\" />
+    <Folder Include="wwwroot\map\5\33\" />
+    <Folder Include="wwwroot\map\5\34\" />
+    <Folder Include="wwwroot\map\5\35\" />
+    <Folder Include="wwwroot\map\5\36\" />
+    <Folder Include="wwwroot\map\5\37\" />
+    <Folder Include="wwwroot\map\5\38\" />
+    <Folder Include="wwwroot\map\5\39\" />
+    <Folder Include="wwwroot\map\5\40\" />
+    <Folder Include="wwwroot\map\6\32\" />
+    <Folder Include="wwwroot\map\6\33\" />
+    <Folder Include="wwwroot\map\6\34\" />
+    <Folder Include="wwwroot\map\6\35\" />
+    <Folder Include="wwwroot\map\6\36\" />
+    <Folder Include="wwwroot\map\6\37\" />
+    <Folder Include="wwwroot\map\6\38\" />
+    <Folder Include="wwwroot\map\6\39\" />
+    <Folder Include="wwwroot\map\6\40\" />
+    <Folder Include="wwwroot\map\6\41\" />
+    <Folder Include="wwwroot\map\6\42\" />
+    <Folder Include="wwwroot\map\6\43\" />
+    <Folder Include="wwwroot\map\6\44\" />
+    <Folder Include="wwwroot\map\6\45\" />
+    <Folder Include="wwwroot\map\6\46\" />
+    <Folder Include="wwwroot\map\6\47\" />
+    <Folder Include="wwwroot\map\6\48\" />
+    <Folder Include="wwwroot\map\6\49\" />
+    <Folder Include="wwwroot\map\6\50\" />
+    <Folder Include="wwwroot\map\6\51\" />
+    <Folder Include="wwwroot\map\6\52\" />
+    <Folder Include="wwwroot\map\6\53\" />
+    <Folder Include="wwwroot\map\6\54\" />
+    <Folder Include="wwwroot\map\6\55\" />
+    <Folder Include="wwwroot\map\6\56\" />
+    <Folder Include="wwwroot\map\6\57\" />
+    <Folder Include="wwwroot\map\6\58\" />
+    <Folder Include="wwwroot\map\6\59\" />
+    <Folder Include="wwwroot\map\6\60\" />
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AshesMapBib\AshesMapBib.csproj" />
+  </ItemGroup>
+
+</Project>

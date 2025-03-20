@@ -1,5 +1,8 @@
-﻿@inject IJSRuntime JS
-@using static AshesMap.ResourcesClass
+﻿@using AshesMapBib.Components
+@using AshesMapBib.Models
+
+@inject IJSRuntime JS
+
 @if(!string.IsNullOrEmpty(_mapData.ResType)){
     <MudCard>
         <MudCardContent>
@@ -10,7 +13,7 @@
             <MudTextField Label="Longitude" @bind-Value="Lng" Variant="Variant.Outlined" Disabled="true" /> *@
 
                 <MudSelect Label="Ressourcentyp" @bind-Value="SelectedResource">
-                    @foreach (var resource in _mapData.ResList.Where(e => e.Type == ResourceType))
+                    @foreach (var resource in _mapData.Nodes.Where(e => e.Type == ResourceType))
                     {
                         <MudSelectItem Value="@resource">@resource.Name</MudSelectItem>
                     }
@@ -25,7 +28,7 @@
 
                 <!-- Datei-Upload -->
                 <MudText Typo="Typo.subtitle1">Bild hochladen:</MudText>
-                <AshesMap.Pages.NewFolder.FileUploader OnImageUploaded="HandleImageUpload" />
+                <FileUploader OnImageUploaded="HandleImageUpload" />
 
                 @if (!string.IsNullOrEmpty(ImgBase64))
                 {
@@ -58,8 +61,8 @@
         ImgBase64 = base64Image;
     }
 
-    public List<Resource> AvailableResources { get; set; } = new();
-    public Resource SelectedResource { get; set; }
+    public List<Node> AvailableResources { get; set; } = new();
+    public Node SelectedResource { get; set; }
     public string SelectedRarity { get; set; } = "f3eb0a";
     private string Message { get; set; }
     private string ImgBase64 = string.Empty;
@@ -84,13 +87,13 @@
             return;
         }
 
-        var newPosition = new ResourcePosition
+        var newPosition = new NodePosition
         {
-            Resource = SelectedResource,
-            PosX = Lat,
-            PosY = Lng,
+            Node = SelectedResource,
+            Lat = Lat,
+            Lng = Lng,
             Rarity = SelectedRarity,
-            Img = ImgBase64,
+            Image = ImgBase64,
             LastHarvest = DateTime.Now
 
             
