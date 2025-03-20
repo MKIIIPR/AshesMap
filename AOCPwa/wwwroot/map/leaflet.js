@@ -126,6 +126,7 @@ function removeMarker(id) {
     }
 }
 
+
 function addCustomMarker(lat, lng, node, timeleft) {
     console.log("addCustomMarker aufgerufen:", { lat, lng, node });
     if (!node) {
@@ -145,19 +146,28 @@ function addCustomMarker(lat, lng, node, timeleft) {
         return;
     }
 
-    var svgIcon = L.divIcon({
+    var imgUrl = node.node.nodeImageUrl|| "https://via.placeholder.com/50"; // Fallback-URL, falls kein Bild vorhanden ist
+
+    var svgIcon =
+        L.divIcon({
         className: "custom-icon",
         html: `
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="80" viewBox="0 0 60 80">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="100" viewBox="0 0 60 100">
                 <!-- Rechteck für den Timer oben -->
                 <rect x="5" y="5" width="50" height="20" fill="black" stroke="white" stroke-width="2" rx="5"/>
                 <text id="timer-${node.id}" x="30" y="20" text-anchor="middle" font-size="14" fill="white">10</text>
                 
+               
+
                 <!-- Dreieck als Marker -->
-                <polygon points="30,70 10,40 50,40" fill="red" stroke="black" stroke-width="2"/>
+                <polygon points="30,90 10,60 50,60" fill="#${node.rarity}" stroke="#${node.rarity}" stroke-width="2"/>
+
+                 <!-- Rechteck für das Bild -->
+                <rect x="10" y="30" width="40" height="40" fill="#${node.rarity}" stroke="#${node.rarity}" stroke-width="2" rx="5"/>
+                <image x="10" y="32" width="40"  height="40" href="${imgUrl}" />
             </svg>`,
-        iconSize: [60, 80],
-        iconAnchor: [30, 70]
+        iconSize: [60, 100],
+        iconAnchor: [30, 90]
     });
 
     var marker = L.marker([lat, lng], { icon: svgIcon }).addTo(map)
@@ -168,6 +178,51 @@ function addCustomMarker(lat, lng, node, timeleft) {
     // Starte den Timer für diesen Marker
     startTimer(node.id, timeleft);
 }
+
+//AddCustomMarkerOhneBild
+///Ohnebild
+//function addCustomMarker(lat, lng, node, timeleft) {
+//    console.log("addCustomMarker aufgerufen:", { lat, lng, node });
+//    if (!node) {
+//        console.error("addCustomMarker: 'node' ist null oder undefined.");
+//        return;
+//    }
+//    if (!node.id) {
+//        console.error("addCustomMarker: node.id ist null oder undefined.");
+//        return;
+//    }
+//    if (!node.node || !node.node.name) {
+//        console.error("addCustomMarker: node.node.name fehlt.");
+//        return;
+//    }
+//    if (!map) {
+//        console.error("addCustomMarker: Karte ist nicht initialisiert.");
+//        return;
+//    }
+
+//    var svgIcon = L.divIcon({
+//        className: "custom-icon",
+//        html: `
+//            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="80" viewBox="0 0 60 80">
+//                <!-- Rechteck für den Timer oben -->
+//                <rect x="5" y="5" width="50" height="20" fill="black" stroke="white" stroke-width="2" rx="5"/>
+//                <text id="timer-${node.id}" x="30" y="20" text-anchor="middle" font-size="14" fill="white">10</text>
+                
+//                <!-- Dreieck als Marker -->
+//                <polygon points="30,70 10,40 50,40" fill="red" stroke="black" stroke-width="2"/>
+//            </svg>`,
+//        iconSize: [60, 80],
+//        iconAnchor: [30, 70]
+//    });
+
+//    var marker = L.marker([lat, lng], { icon: svgIcon }).addTo(map)
+//        .bindPopup(node.node.name);
+//    markers.push({ id: node.id, marker: marker });
+//    console.log("addCustomMarker: Benutzerdefinierter Marker mit ID", node.id, "hinzugefügt.");
+
+//    // Starte den Timer für diesen Marker
+//    startTimer(node.id, timeleft);
+//}
 
 function formatTime(seconds) {
     let hours = Math.floor(seconds / 3600);

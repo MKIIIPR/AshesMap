@@ -21,6 +21,7 @@
         public string Rarity { get; set; }
         public string? Image { get; set; }
         public DateTime LastHarvest { get; set; }
+        public DateTime FirstHarvest { get; set; }
         public int? TimerMod { get; set; }
         public bool Ghost { get; set; }
     }
@@ -36,6 +37,45 @@
 
         // Berechnet die verbleibende Zeit bis zum Respawn
         public TimeSpan TimeRemaining => ActualRespawnAt - DateTime.Now;
+        public DateTime PossibleNewHarvest
+        {
+            get
+            {
+                if (Node == null) return DateTime.Now; // Falls Node null ist, gib einfach die aktuelle Zeit zurück
+
+                int respawnTime = Node.RespawnTimer; // Respawn-Zeit in Minuten
+                if (respawnTime <= 0) return DateTime.Now; // Sicherstellen, dass kein Fehler entsteht
+
+                // Berechnung: Wie viele Respawns hätten seit FirstHarvest passieren können?
+                TimeSpan seitErstemAbbau = DateTime.Now - FirstHarvest;
+                int möglicheRespawns = (int)(seitErstemAbbau.TotalMinutes / respawnTime);
+
+                // Nächster theoretischer Respawn seit FirstHarvest
+                DateTime nächsterMöglicherRespawn = FirstHarvest.AddMinutes(möglicheRespawns * respawnTime);
+
+                // Falls der nächste mögliche Respawn in der Vergangenheit liegt, korrigieren
+                while (nächsterMöglicherRespawn < DateTime.Now)
+                {
+                    nächsterMöglicherRespawn = nächsterMöglicherRespawn.AddMinutes(respawnTime);
+                }
+
+                return nächsterMöglicherRespawn;
+            }
+        }
+        public string PossibleNewHarvestString
+        {
+            get
+            {
+                DateTime nextHarvest = PossibleNewHarvest;
+                TimeSpan verbleibendeZeit = nextHarvest - DateTime.Now;
+
+                if (verbleibendeZeit.TotalSeconds <= 0)
+                    return "Bereit zur Ernte";
+
+                return $"Nächste Ernte möglich in {verbleibendeZeit.Hours}h {verbleibendeZeit.Minutes}m {verbleibendeZeit.Seconds}s ({nextHarvest:HH:mm})";
+            }
+        }
+
         public int TimeLeft => (int)(ActualRespawnAt - DateTime.Now).TotalSeconds;
 
 
