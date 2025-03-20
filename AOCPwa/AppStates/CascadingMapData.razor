@@ -108,7 +108,7 @@
     protected override async Task OnInitializedAsync()
     {
 
-        NodeList = await GetResourNodeclient();
+        NodeList = await GetAllNodes();
         NodePositionList = await GetNodePositions();
         NodePositionList = NodePositionList.Where(e => !e.Ghost).ToList();
         UpdateFilteredPosList();
@@ -169,7 +169,7 @@
    
  
     public List<Node> NodeList { get; set; } = new();
-    public async Task<List<Node>> GetResourNodeclient()
+    public async Task<List<Node>> GetAllNodes()
     {
         List<Node> blob = new();
         blob = await _nodes.GetAllAsync("/node");
